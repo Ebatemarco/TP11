@@ -9,7 +9,7 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
-      <itemPath>../../Escritorio/mysha.png</itemPath>
+      <itemPath>../../Escritorio/EstadoBase.jpg</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
@@ -58,7 +58,7 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="../../Escritorio/mysha.png" ex="false" tool="3" flavor2="0">
+      <item path="../../Escritorio/EstadoBase.jpg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TP11Main.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -87,7 +87,7 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="../../Escritorio/mysha.png" ex="false" tool="3" flavor2="0">
+      <item path="../../Escritorio/EstadoBase.jpg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TP11Main.c" ex="false" tool="0" flavor2="0">
       </item>

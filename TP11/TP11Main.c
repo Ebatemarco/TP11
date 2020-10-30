@@ -12,125 +12,71 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
 
+void must_init(bool test, const char *description)
+{
+    if(test) return;
+
+    printf("couldn't initialize %s\n", description);
+    exit(1);
+}
+
 int main()
 {
-    if(!al_init())
-    {
-        printf("couldn't initialize allegro\n");
-        return 1;
-    }
-
-    if(!al_install_keyboard())
-    {
-        printf("couldn't initialize keyboard\n");
-        return 1;
-    }
-
-    ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30.0);
-    if(!timer)
-    {
-        printf("couldn't initialize timer\n");
-        return 1;
-    }
+    must_init(al_init(), "allegro");
+    must_init(al_install_keyboard(), "keyboard");
 
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
-    if(!queue)
-    {
-        printf("couldn't initialize queue\n");
-        return 1;
-    }
+    must_init(queue, "queue");
 
-    if(!al_init_image_addon())
-    {
-        printf("couldn't initialize image addon\n");
-        return 1;
-    }
-    
-    ALLEGRO_DISPLAY* disp = al_create_display(640, 480);
-    if(!disp)
-    {
-        printf("couldn't initialize display\n");
-        return 1;
-    }
+    ALLEGRO_DISPLAY* display = al_create_display(256, 128);
+    must_init(display, "display");
 
     ALLEGRO_FONT* font = al_create_builtin_font();
-    if(!font)
-    {
-        printf("couldn't initialize font\n");
-        return 1;
-    }
+    must_init(font, "font");
+
+    must_init(al_init_image_addon(), "image addon");//Para trabajar con imagenes
     
-    ALLEGRO_BITMAP* mysha = al_load_bitmap("mysha.png");
-    if(!mysha)
-    {
-        printf("couldn't load mysha\n");
-        return 1;
-    }
-    
+    ALLEGRO_BITMAP* BitsPanel = al_load_bitmap("EstadoBase.jpg");
+    must_init(BitsPanel, "BitsPanel");
+
     al_register_event_source(queue, al_get_keyboard_event_source());
-    al_register_event_source(queue, al_get_display_event_source(disp));
-    al_register_event_source(queue, al_get_timer_event_source(timer));
-    
-    
-    
+    al_register_event_source(queue, al_get_display_event_source(display));
+
     bool done = false;
     bool redraw = true;
-    ALLEGRO_EVENT event;
-    
-    
-    
+    bool close_display = false; 
+    ALLEGRO_EVENT ev;
 
-    al_start_timer(timer);
-    while(1)
+    
+    while(!close_display)
     {
-        al_wait_for_event(queue, &event);
+        al_wait_for_event(queue, &ev);
 
-        switch(event.type)
+        if (al_get_next_event(queue, &ev)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
         {
-            case ALLEGRO_EVENT_TIMER:
-                // game logic goes here.
-                redraw = true;
-                break;
-
-            case ALLEGRO_EVENT_KEY_DOWN:
-            case ALLEGRO_EVENT_DISPLAY_CLOSE:
-                done = true;
-                break;
+            if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+                close_display = true;
         }
-
-        if(done)
-            break;
-
+        
         if(redraw && al_is_event_queue_empty(queue))
         {
-            
-    
-            al_clear_to_color(al_map_rgb(0, 0, 0));
-            
-
-            al_draw_bitmap(mysha, 0, 0, 0);
-            
-            al_draw_text(font, al_map_rgb(255, 255, 255), 0, 0, 0, "Hello world!");
-            
-            //al_draw_tinted_bitmap(mysha, al_map_rgba_f(255,0,0,0), 0, 0, 0);
+            al_draw_bitmap(BitsPanel, 0, 0, 0);
 
             al_flip_display();
 
             redraw = false;
         }
     }
-    
-    al_destroy_bitmap(mysha);
 
+    al_destroy_bitmap(BitsPanel);
     al_destroy_font(font);
-    al_destroy_display(disp);
-    al_destroy_timer(timer);
+    al_destroy_display(display);
     al_destroy_event_queue(queue);
 
     return 0;
 }
-
