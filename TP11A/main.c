@@ -17,6 +17,7 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
+#include "emuladordepuertos.h"
 
 void must_init(bool test, const char *description)
 {
@@ -25,6 +26,9 @@ void must_init(bool test, const char *description)
     printf("couldn't initialize %s\n", description);
     exit(1);
 }
+
+int switchcase (char bit, char puerto);
+//cambia el estado del bit al opuesto
 
 int main()
 {
@@ -65,39 +69,71 @@ int main()
 
         switch(event.type)
         {
-            case ALLEGRO_EVENT_TIMER:
-                // game logic goes here.
-                al_get_keyboard_state(&ks);
-
-                if(al_key_down(&ks, ALLEGRO_KEY_UP))
+            case ALLEGRO_EVENT_KEY_DOWN:
+                if(event.keyboard.keycode == ALLEGRO_KEY_T)
                 {
-                    al_draw_filled_rectangle(0, 0, 10, 10, al_map_rgba_f(0, 0, 1, 1));
-                    al_flip_display();
-                }
+                    maskToggle(PORTA, 0xFF);
+                    led_state (PORTA);
+                } 
+                if(event.keyboard.keycode == ALLEGRO_KEY_C)
+                {
+                    maskOff (PORTA, 0xFF);
+                    led_state (PORTA);
+                } 
+                if(event.keyboard.keycode == ALLEGRO_KEY_S)
+                {
+                    maskOn (PORTA, 0xFF);
+                    led_state (PORTA);
+                } 
+                if(event.keyboard.keycode == ALLEGRO_KEY_0)
+                {
+                    switchcase (0, PORTA);
+                    led_state (PORTA);
+                }    
+                if(event.keyboard.keycode == ALLEGRO_KEY_1)
+                {
+                    switchcase (1, PORTA);
+                    led_state (PORTA);
+                }    
+                if(event.keyboard.keycode == ALLEGRO_KEY_2)
+                {
+                    switchcase (2, PORTA);
+                    led_state (PORTA);
+                }    
+                if(event.keyboard.keycode == ALLEGRO_KEY_3)
+                {
+                    switchcase (3, PORTA);
+                    led_state (PORTA);
+                }    
+                if(event.keyboard.keycode == ALLEGRO_KEY_4)    
+                {
+                    switchcase (4, PORTA);
+                    led_state (PORTA);
+                }    
+                if(event.keyboard.keycode == ALLEGRO_KEY_5)
+                {
+                    switchcase (5, PORTA);
+                    led_state (PORTA);
+                }    
+                if(event.keyboard.keycode == ALLEGRO_KEY_6)
+                {
+                    switchcase (6, PORTA);
+                    led_state (PORTA);
+                }    
+                if(event.keyboard.keycode == ALLEGRO_KEY_7)    
+                {
+                    switchcase (7, PORTA);
+                    led_state (PORTA);
+                }        
+                if(event.keyboard.keycode != ALLEGRO_KEY_ESCAPE)
+                    break;
                 
-                if(al_key_down(&ks, ALLEGRO_KEY_ESCAPE))
-                    done = true;
-                //game logic ends here
-                redraw = true;
-                break;
-
-            
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
                 done = true;
-                break;
+                break;    
+                
         }
 
-        if(redraw && al_is_event_queue_empty(queue))
-        {
-            
-            
-            al_draw_bitmap(mysha, 0, 0, 0);
-
-            al_draw_filled_rectangle(0, 0, 10, 10, al_map_rgba_f(0, 0, 1, 1));
-            al_flip_display();
-
-            redraw = false;
-        }
     }
 
     al_destroy_bitmap(mysha);
@@ -109,3 +145,10 @@ int main()
     return 0;
 }
 
+int switchcase (char bit , char puerto)
+{
+     if (bitGet(puerto, bit))
+        bitClr (puerto, bit); //lo apago
+     else 
+        bitSet (puerto, bit); //lo prendo
+}
