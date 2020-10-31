@@ -14,18 +14,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
-
-void mi_printf(char* string, ...);
-void putchar_d (int num);
-void putchar_x (unsigned int num);
-void putchar_c (char letra);
+#include "Header.h"
 
 /*
  * 
  */
+
+void mi_printf(char* string, ...);
+
 int main(int argc, char** argv) 
 {
-    mi_printf ("Hola %x %d mundo", 1359, 1359);
+    mi_printf ("Hola mundo: %d %x %c", 97, 97, 97);
+    
     return (EXIT_SUCCESS);
 }
 
@@ -53,7 +53,7 @@ void mi_printf(char* string, ...)
                     putchar_x (va_arg(param_list,unsigned int));
                     break;
                 case 'c':
-                    putchar_c (va_arg(param_list,char));
+                    putchar_c (va_arg(param_list,int));
                     break;
                 default:
                     break;
@@ -63,65 +63,4 @@ void mi_printf(char* string, ...)
         i++;
     }
     va_end (param_list);
-}
-
-void putchar_d (int num)
-{
-    if (num < 0)
-    {
-        putchar ('-');
-        num = -num;
-    }
-    if (num == 0)
-    {
-        return;
-    }
-    else 
-    {
-        putchar_d (num/10);
-        putchar ((num%10)+48);
-    }
-    return;
-}
-
-void putchar_x (unsigned int num)
-{
-    if (num == 0)
-    {
-        return;
-    }
-    else 
-    {
-        putchar_x (num/16);
-        switch (num%16)
-        {
-            case 15:
-                putchar ('F');
-                break;
-            case 14:
-                putchar ('E');
-                break;
-            case 13:
-                putchar ('D');
-                break;
-            case 12:
-                putchar ('C');
-                break;
-            case 11:
-                putchar ('B');
-                break;
-            case 10:
-                putchar ('A');
-                break;
-            default:
-                putchar ((num%16)+48);
-                break;
-        }
-    }
-    return;
-}
-
-void putchar_c (char letra)
-{
-    
 }
