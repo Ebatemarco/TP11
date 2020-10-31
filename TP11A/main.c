@@ -74,6 +74,7 @@ int main()
                 {
                     maskToggle(PORTA, 0xFF);
                     led_state (PORTA);
+                    
                 } 
                 if(event.keyboard.keycode == ALLEGRO_KEY_C)
                 {
@@ -89,42 +90,175 @@ int main()
                 {
                     switchcase (0, PORTA);
                     led_state (PORTA);
+                    if(bitGet(PORTA, 0)==0)
+                    {
+                        led_state (PORTA);
+                        al_draw_filled_rectangle(229, 55, 247, 40, al_map_rgba_f(1, 0, 0, 1));
+                        al_flip_display();
+                    }
+                    else if(bitGet(PORTA, 0)==1)
+                    {
+                        led_state (PORTA);
+                        al_draw_filled_rectangle(229, 55, 247, 40, al_map_rgba_f(1, 1, 1, 1));
+                        al_flip_display();     
+                    }
+                    else
+                    {
+                        led_state (PORTA);
+                    }
                 }    
                 if(event.keyboard.keycode == ALLEGRO_KEY_1)
                 {
                     switchcase (1, PORTA);
                     led_state (PORTA);
+                    if(bitGet(PORTA, 1)==0)
+                    {
+                        led_state (PORTA);
+                        al_draw_filled_rectangle(198, 55, 216, 40, al_map_rgba_f(1, 0, 0, 1));
+                        al_flip_display();
+                    }
+                    else if(bitGet(PORTA, 1)==1)
+                    {
+                        led_state (PORTA);
+                        al_draw_filled_rectangle(198, 55, 216, 40, al_map_rgba_f(1, 1, 1, 1));
+                        al_flip_display();     
+                    }
+                    else
+                    {
+                        led_state (PORTA);
+                    }
                 }    
                 if(event.keyboard.keycode == ALLEGRO_KEY_2)
                 {
                     switchcase (2, PORTA);
                     led_state (PORTA);
+                    if(bitGet(PORTA, 2)==0)
+                    {
+                        led_state (PORTA);
+                        al_draw_filled_rectangle(167, 55, 185, 40, al_map_rgba_f(1, 0, 0, 1));
+                        al_flip_display();
+                    }
+                    else if(bitGet(PORTA, 2)==1)
+                    {
+                        led_state (PORTA);
+                        al_draw_filled_rectangle(167, 55, 185, 40, al_map_rgba_f(1, 1, 1, 1));
+                        al_flip_display();     
+                    }
+                    else
+                    {
+                        led_state (PORTA);
+                    }
                 }    
                 if(event.keyboard.keycode == ALLEGRO_KEY_3)
                 {
                     switchcase (3, PORTA);
                     led_state (PORTA);
+                    
+                    if(bitGet(PORTA, 3)==0)
+                    {
+                        led_state (PORTA);
+                        al_draw_filled_rectangle(136, 55, 154, 40, al_map_rgba_f(1, 0, 0, 1));
+                        al_flip_display();
+                    }
+                    else if(bitGet(PORTA, 3)==1)
+                    {
+                        led_state (PORTA);
+                        al_draw_filled_rectangle(136, 55, 154, 40, al_map_rgba_f(1, 1, 1, 1));
+                        al_flip_display();     
+                    }
+                    else
+                    {
+                        led_state (PORTA);
+                    }
                 }    
                 if(event.keyboard.keycode == ALLEGRO_KEY_4)    
                 {
                     switchcase (4, PORTA);
                     led_state (PORTA);
+                    if(bitGet(PORTA, 4)==0)
+                    {
+                        led_state (PORTA);
+                        al_draw_filled_rectangle(105, 55, 123, 40, al_map_rgba_f(1, 0, 0, 1));
+                        al_flip_display();
+                    }
+                    else if(bitGet(PORTA, 4)==1)
+                    {
+                        led_state (PORTA);
+                        al_draw_filled_rectangle(105, 55, 123, 40, al_map_rgba_f(1, 1, 1, 1));
+                        al_flip_display();     
+                    }
+                    else
+                    {
+                        led_state (PORTA);
+                    }
                 }    
                 if(event.keyboard.keycode == ALLEGRO_KEY_5)
                 {
                     switchcase (5, PORTA);
                     led_state (PORTA);
+                    if(bitGet(PORTA, 5)==0)
+                    {
+                        led_state (PORTA);
+                        al_draw_filled_rectangle(74, 55, 92, 40, al_map_rgba_f(1, 0, 0, 1));
+                        al_flip_display();
+                    }
+                    else if(bitGet(PORTA, 5)==1)
+                    {
+                        led_state (PORTA);
+                        al_draw_filled_rectangle(74, 55, 92, 40, al_map_rgba_f(1, 1, 1, 1));
+                        al_flip_display();     
+                    }
+                    else
+                    {
+                        led_state (PORTA);
+                    }
                 }    
                 if(event.keyboard.keycode == ALLEGRO_KEY_6)
                 {
                     switchcase (6, PORTA);
                     led_state (PORTA);
+                    if(bitGet(PORTA, 6)==0)
+                    {
+                        led_state (PORTA);
+                        al_draw_filled_rectangle(43, 55, 61, 40, al_map_rgba_f(1, 0, 0, 1));
+                        al_flip_display();
+                    }
+                    else if(bitGet(PORTA, 6)==1)
+                    {
+                        led_state (PORTA);
+                        al_draw_filled_rectangle(43, 55, 61, 40, al_map_rgba_f(1, 1, 1, 1));
+                        al_flip_display();     
+                    }
+                    else
+                    {
+                        led_state (PORTA);
+                    }
                 }    
                 if(event.keyboard.keycode == ALLEGRO_KEY_7)    
                 {
                     switchcase (7, PORTA);
                     led_state (PORTA);
-                }        
+                    if(bitGet(PORTA, 7)==0)
+                    {
+                        led_state (PORTA);
+                        al_draw_filled_rectangle(12, 55, 30, 40, al_map_rgba_f(1, 0, 0, 1));
+                        al_flip_display();
+                    }
+                    else if(bitGet(PORTA, 7)==1)
+                    {
+                        led_state (PORTA);
+                        al_draw_filled_rectangle(12, 55, 30, 40, al_map_rgba_f(1, 1, 1, 1));
+                        al_flip_display();     
+                    }
+                    else
+                    {
+                        led_state (PORTA);
+                    }
+                }       
+                if(event.keyboard.keycode == ALLEGRO_KEY_Q)    
+                {
+                    done=true;
+                }  
                 if(event.keyboard.keycode != ALLEGRO_KEY_ESCAPE)
                     break;
                 

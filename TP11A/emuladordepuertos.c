@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include "emuladordepuertos.h"
 
+
 #define MASCARA 0x01 
 #define ERROR -1 //le asigno un valor cualquiera a error
 
