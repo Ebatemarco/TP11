@@ -32,6 +32,13 @@ int switchcase (char bit, char puerto);
 
 int main()
 {
+    //VARIABLES
+    int bitactual;
+    int x1=12;
+    int x2 = 30;
+    
+    //
+    
     must_init(al_init(), "allegro");
     must_init(al_install_keyboard(), "keyboard");
 
@@ -62,6 +69,16 @@ int main()
     ALLEGRO_EVENT event;
     ALLEGRO_KEYBOARD_STATE ks;
 
+    al_draw_filled_rectangle(229, 55, 247, 40, al_map_rgba_f(1, 1, 1, 1));
+    al_draw_filled_rectangle(198, 55, 216, 40, al_map_rgba_f(1, 1, 1, 1));
+    al_draw_filled_rectangle(167, 55, 185, 40, al_map_rgba_f(1, 1, 1, 1));
+    al_draw_filled_rectangle(136, 55, 154, 40, al_map_rgba_f(1, 1, 1, 1));
+    al_draw_filled_rectangle(105, 55, 123, 40, al_map_rgba_f(1, 1, 1, 1));
+    al_draw_filled_rectangle(74, 55, 92, 40, al_map_rgba_f(1, 1, 1, 1));
+    al_draw_filled_rectangle(43, 55, 61, 40, al_map_rgba_f(1, 1, 1, 1));
+    al_draw_filled_rectangle(12, 55, 30, 40, al_map_rgba_f(1, 1, 1, 1));
+    al_flip_display();
+                    
     al_start_timer(timer);
     while(!done)
     {
@@ -72,6 +89,25 @@ int main()
             case ALLEGRO_EVENT_KEY_DOWN:
                 if(event.keyboard.keycode == ALLEGRO_KEY_T)
                 {
+                    x1=12;
+                    x2=30;
+                    
+                    for(bitactual=7; bitactual>=0;bitactual--)
+                    {
+                        switch(bitGet(PORTA, bitactual))
+                        {        
+                            case 0: 
+                                al_draw_filled_rectangle(x1, 55, x2, 40, al_map_rgba_f(1, 0, 0, 1));
+                                break;
+                            case 1:
+                                al_draw_filled_rectangle(x1, 55, x2, 40, al_map_rgba_f(1, 1, 1, 1));
+                                break;
+                            default: break;        
+                        }   
+                        x1+=31;
+                        x2+=31;
+                    } 
+                    al_flip_display();
                     maskToggle(PORTA, 0xFF);
                     led_state (PORTA);
                     
@@ -80,23 +116,42 @@ int main()
                 {
                     maskOff (PORTA, 0xFF);
                     led_state (PORTA);
+                    al_draw_filled_rectangle(229, 55, 247, 40, al_map_rgba_f(1, 1, 1, 1));
+                    al_draw_filled_rectangle(198, 55, 216, 40, al_map_rgba_f(1, 1, 1, 1));
+                    al_draw_filled_rectangle(167, 55, 185, 40, al_map_rgba_f(1, 1, 1, 1));
+                    al_draw_filled_rectangle(136, 55, 154, 40, al_map_rgba_f(1, 1, 1, 1));
+                    al_draw_filled_rectangle(105, 55, 123, 40, al_map_rgba_f(1, 1, 1, 1));
+                    al_draw_filled_rectangle(74, 55, 92, 40, al_map_rgba_f(1, 1, 1, 1));
+                    al_draw_filled_rectangle(43, 55, 61, 40, al_map_rgba_f(1, 1, 1, 1));
+                    al_draw_filled_rectangle(12, 55, 30, 40, al_map_rgba_f(1, 1, 1, 1));
+                    al_flip_display();
                 } 
                 if(event.keyboard.keycode == ALLEGRO_KEY_S)
                 {
                     maskOn (PORTA, 0xFF);
                     led_state (PORTA);
+                    al_draw_filled_rectangle(229, 55, 247, 40, al_map_rgba_f(1, 0, 0, 1));
+                    al_draw_filled_rectangle(198, 55, 216, 40, al_map_rgba_f(1, 0, 0, 1));
+                    al_draw_filled_rectangle(167, 55, 185, 40, al_map_rgba_f(1, 0, 0, 1));
+                    al_draw_filled_rectangle(136, 55, 154, 40, al_map_rgba_f(1, 0, 0, 1));
+                    al_draw_filled_rectangle(105, 55, 123, 40, al_map_rgba_f(1, 0, 0, 1));
+                    al_draw_filled_rectangle(74, 55, 92, 40, al_map_rgba_f(1, 0, 0, 1));
+                    al_draw_filled_rectangle(43, 55, 61, 40, al_map_rgba_f(1, 0, 0, 1));
+                    al_draw_filled_rectangle(12, 55, 30, 40, al_map_rgba_f(1, 0, 0, 1));
+                    al_flip_display();
+                    
                 } 
                 if(event.keyboard.keycode == ALLEGRO_KEY_0)
                 {
                     switchcase (0, PORTA);
                     led_state (PORTA);
-                    if(bitGet(PORTA, 0)==0)
+                    if(bitGet(PORTA, 0)==1)
                     {
                         led_state (PORTA);
                         al_draw_filled_rectangle(229, 55, 247, 40, al_map_rgba_f(1, 0, 0, 1));
                         al_flip_display();
                     }
-                    else if(bitGet(PORTA, 0)==1)
+                    else if(bitGet(PORTA, 0)==0)
                     {
                         led_state (PORTA);
                         al_draw_filled_rectangle(229, 55, 247, 40, al_map_rgba_f(1, 1, 1, 1));
@@ -111,13 +166,13 @@ int main()
                 {
                     switchcase (1, PORTA);
                     led_state (PORTA);
-                    if(bitGet(PORTA, 1)==0)
+                    if(bitGet(PORTA, 1)==1)
                     {
                         led_state (PORTA);
                         al_draw_filled_rectangle(198, 55, 216, 40, al_map_rgba_f(1, 0, 0, 1));
                         al_flip_display();
                     }
-                    else if(bitGet(PORTA, 1)==1)
+                    else if(bitGet(PORTA, 1)==0)
                     {
                         led_state (PORTA);
                         al_draw_filled_rectangle(198, 55, 216, 40, al_map_rgba_f(1, 1, 1, 1));
@@ -132,13 +187,13 @@ int main()
                 {
                     switchcase (2, PORTA);
                     led_state (PORTA);
-                    if(bitGet(PORTA, 2)==0)
+                    if(bitGet(PORTA, 2)==1)
                     {
                         led_state (PORTA);
                         al_draw_filled_rectangle(167, 55, 185, 40, al_map_rgba_f(1, 0, 0, 1));
                         al_flip_display();
                     }
-                    else if(bitGet(PORTA, 2)==1)
+                    else if(bitGet(PORTA, 2)==0)
                     {
                         led_state (PORTA);
                         al_draw_filled_rectangle(167, 55, 185, 40, al_map_rgba_f(1, 1, 1, 1));
@@ -154,13 +209,13 @@ int main()
                     switchcase (3, PORTA);
                     led_state (PORTA);
                     
-                    if(bitGet(PORTA, 3)==0)
+                    if(bitGet(PORTA, 3)==1)
                     {
                         led_state (PORTA);
                         al_draw_filled_rectangle(136, 55, 154, 40, al_map_rgba_f(1, 0, 0, 1));
                         al_flip_display();
                     }
-                    else if(bitGet(PORTA, 3)==1)
+                    else if(bitGet(PORTA, 3)==0)
                     {
                         led_state (PORTA);
                         al_draw_filled_rectangle(136, 55, 154, 40, al_map_rgba_f(1, 1, 1, 1));
@@ -175,13 +230,13 @@ int main()
                 {
                     switchcase (4, PORTA);
                     led_state (PORTA);
-                    if(bitGet(PORTA, 4)==0)
+                    if(bitGet(PORTA, 4)==1)
                     {
                         led_state (PORTA);
                         al_draw_filled_rectangle(105, 55, 123, 40, al_map_rgba_f(1, 0, 0, 1));
                         al_flip_display();
                     }
-                    else if(bitGet(PORTA, 4)==1)
+                    else if(bitGet(PORTA, 4)==0)
                     {
                         led_state (PORTA);
                         al_draw_filled_rectangle(105, 55, 123, 40, al_map_rgba_f(1, 1, 1, 1));
@@ -196,13 +251,13 @@ int main()
                 {
                     switchcase (5, PORTA);
                     led_state (PORTA);
-                    if(bitGet(PORTA, 5)==0)
+                    if(bitGet(PORTA, 5)==1)
                     {
                         led_state (PORTA);
                         al_draw_filled_rectangle(74, 55, 92, 40, al_map_rgba_f(1, 0, 0, 1));
                         al_flip_display();
                     }
-                    else if(bitGet(PORTA, 5)==1)
+                    else if(bitGet(PORTA, 5)==0)
                     {
                         led_state (PORTA);
                         al_draw_filled_rectangle(74, 55, 92, 40, al_map_rgba_f(1, 1, 1, 1));
@@ -217,13 +272,13 @@ int main()
                 {
                     switchcase (6, PORTA);
                     led_state (PORTA);
-                    if(bitGet(PORTA, 6)==0)
+                    if(bitGet(PORTA, 6)==1)
                     {
                         led_state (PORTA);
                         al_draw_filled_rectangle(43, 55, 61, 40, al_map_rgba_f(1, 0, 0, 1));
                         al_flip_display();
                     }
-                    else if(bitGet(PORTA, 6)==1)
+                    else if(bitGet(PORTA, 6)==0)
                     {
                         led_state (PORTA);
                         al_draw_filled_rectangle(43, 55, 61, 40, al_map_rgba_f(1, 1, 1, 1));
@@ -238,13 +293,13 @@ int main()
                 {
                     switchcase (7, PORTA);
                     led_state (PORTA);
-                    if(bitGet(PORTA, 7)==0)
+                    if(bitGet(PORTA, 7)==1)
                     {
                         led_state (PORTA);
                         al_draw_filled_rectangle(12, 55, 30, 40, al_map_rgba_f(1, 0, 0, 1));
                         al_flip_display();
                     }
-                    else if(bitGet(PORTA, 7)==1)
+                    else if(bitGet(PORTA, 7)==0)
                     {
                         led_state (PORTA);
                         al_draw_filled_rectangle(12, 55, 30, 40, al_map_rgba_f(1, 1, 1, 1));
