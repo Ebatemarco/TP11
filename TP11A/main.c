@@ -37,6 +37,9 @@ int main()
     int x1=12;
     int x2 = 30;
     
+    bool bit_parpadeo[8]={false,false,false,false,false,false,false,false};
+    bool estado_parpadeo=false;
+    
     //
     
     must_init(al_init(), "allegro");
@@ -54,9 +57,9 @@ int main()
     ALLEGRO_FONT* font = al_create_builtin_font();
     must_init(font, "font");
 
-    must_init(al_init_image_addon(), "image addon");
-    ALLEGRO_BITMAP* mysha = al_load_bitmap("EstadoBase.jpg");
-    must_init(mysha, "mysha");
+    /*must_init(al_init_image_addon(), "image addon");
+    ALLEGRO_BITMAP* Bitmap = al_load_bitmap("EstadoBase.jpg");
+    must_init(Bitmap, "Bitmap");*/
     
     must_init(al_init_primitives_addon(), "primitives");
 
@@ -69,15 +72,16 @@ int main()
     ALLEGRO_EVENT event;
     ALLEGRO_KEYBOARD_STATE ks;
 
-    al_draw_filled_rectangle(229, 55, 247, 40, al_map_rgba_f(1, 1, 1, 1));
-    al_draw_filled_rectangle(198, 55, 216, 40, al_map_rgba_f(1, 1, 1, 1));
-    al_draw_filled_rectangle(167, 55, 185, 40, al_map_rgba_f(1, 1, 1, 1));
-    al_draw_filled_rectangle(136, 55, 154, 40, al_map_rgba_f(1, 1, 1, 1));
-    al_draw_filled_rectangle(105, 55, 123, 40, al_map_rgba_f(1, 1, 1, 1));
-    al_draw_filled_rectangle(74, 55, 92, 40, al_map_rgba_f(1, 1, 1, 1));
-    al_draw_filled_rectangle(43, 55, 61, 40, al_map_rgba_f(1, 1, 1, 1));
-    al_draw_filled_rectangle(12, 55, 30, 40, al_map_rgba_f(1, 1, 1, 1));
+    x1=12;
+    x2=30;
+    for(bitactual=7; bitactual>=0;bitactual--)
+    {
+        al_draw_filled_rectangle(x1, 55, x2, 40, al_map_rgba_f(1, 1, 1, 1));
+        x1+=31;
+        x2+=31;
+    } 
     al_flip_display();
+    
                     
     al_start_timer(timer);
     while(!done)
@@ -86,6 +90,10 @@ int main()
 
         switch(event.type)
         {
+            case ALLEGRO_EVENT_TIMER:
+                // game logic goes here.
+                redraw = true;
+                break;
             case ALLEGRO_EVENT_KEY_DOWN:
                 if(event.keyboard.keycode == ALLEGRO_KEY_T)
                 {
@@ -112,32 +120,55 @@ int main()
                     led_state (PORTA);
                     
                 } 
+                if(event.keyboard.keycode == ALLEGRO_KEY_B)
+                {
+                    if(estado_parpadeo==true)
+                    {
+                        estado_parpadeo=false;
+                        for(bitactual=0;bitactual<=7;bitactual++)
+                        {
+                            if(bitGet(PORTA,bitactual)==true)
+                            {
+                                bit_parpadeo[bitactual]=true;
+                            }    
+                        }   
+                    }
+                    else
+                    {
+                        estado_parpadeo=true;
+                        for(bitactual=0;bitactual<=7;bitactual++)
+                        {
+                            bit_parpadeo[bitactual]=false;    
+                        }
+                    }
+                    
+                } 
                 if(event.keyboard.keycode == ALLEGRO_KEY_C)
                 {
                     maskOff (PORTA, 0xFF);
                     led_state (PORTA);
-                    al_draw_filled_rectangle(229, 55, 247, 40, al_map_rgba_f(1, 1, 1, 1));
-                    al_draw_filled_rectangle(198, 55, 216, 40, al_map_rgba_f(1, 1, 1, 1));
-                    al_draw_filled_rectangle(167, 55, 185, 40, al_map_rgba_f(1, 1, 1, 1));
-                    al_draw_filled_rectangle(136, 55, 154, 40, al_map_rgba_f(1, 1, 1, 1));
-                    al_draw_filled_rectangle(105, 55, 123, 40, al_map_rgba_f(1, 1, 1, 1));
-                    al_draw_filled_rectangle(74, 55, 92, 40, al_map_rgba_f(1, 1, 1, 1));
-                    al_draw_filled_rectangle(43, 55, 61, 40, al_map_rgba_f(1, 1, 1, 1));
-                    al_draw_filled_rectangle(12, 55, 30, 40, al_map_rgba_f(1, 1, 1, 1));
+                    x1=12;
+                    x2=30;
+                    for(bitactual=7; bitactual>=0;bitactual--)
+                    {
+                        al_draw_filled_rectangle(x1, 55, x2, 40, al_map_rgba_f(1, 1, 1, 1));
+                        x1+=31;
+                        x2+=31;
+                    } 
                     al_flip_display();
                 } 
                 if(event.keyboard.keycode == ALLEGRO_KEY_S)
                 {
                     maskOn (PORTA, 0xFF);
                     led_state (PORTA);
-                    al_draw_filled_rectangle(229, 55, 247, 40, al_map_rgba_f(1, 0, 0, 1));
-                    al_draw_filled_rectangle(198, 55, 216, 40, al_map_rgba_f(1, 0, 0, 1));
-                    al_draw_filled_rectangle(167, 55, 185, 40, al_map_rgba_f(1, 0, 0, 1));
-                    al_draw_filled_rectangle(136, 55, 154, 40, al_map_rgba_f(1, 0, 0, 1));
-                    al_draw_filled_rectangle(105, 55, 123, 40, al_map_rgba_f(1, 0, 0, 1));
-                    al_draw_filled_rectangle(74, 55, 92, 40, al_map_rgba_f(1, 0, 0, 1));
-                    al_draw_filled_rectangle(43, 55, 61, 40, al_map_rgba_f(1, 0, 0, 1));
-                    al_draw_filled_rectangle(12, 55, 30, 40, al_map_rgba_f(1, 0, 0, 1));
+                    x1=12;
+                    x2=30;
+                    for(bitactual=7; bitactual>=0;bitactual--)
+                    {
+                        al_draw_filled_rectangle(x1, 55, x2, 40, al_map_rgba_f(1, 0, 0, 1));
+                        x1+=31;
+                        x2+=31;
+                    }
                     al_flip_display();
                     
                 } 
@@ -314,7 +345,10 @@ int main()
                 {
                     done=true;
                 }  
-                if(event.keyboard.keycode != ALLEGRO_KEY_ESCAPE)
+                if(event.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+                {
+                    done=true;
+                }    
                     break;
                 
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
@@ -322,10 +356,41 @@ int main()
                 break;    
                 
         }
+        if(redraw && al_is_event_queue_empty(queue))
+        {
+            x1=12;
+            x2=30;
+            for(bitactual=0;bitactual<=7;bitactual++)
+            {
+                if(bit_parpadeo[bitactual]==true)
+                {
+                    switch(bitGet(PORTA, bitactual))
+                        {        
+                            case 0: 
+                                al_draw_filled_rectangle(x1, 55, x2, 40, al_map_rgba_f(1, 0, 0, 1));
+                                break;
+                            case 1:
+                                al_draw_filled_rectangle(x1, 55, x2, 40, al_map_rgba_f(1, 1, 1, 1));
+                                break;
+                            default: break;        
+                        }   
+                        x1+=31;
+                        x2+=31;
+                }
+                else
+                {
+                    x1+=31;
+                    x2+=31;
+                }
+            }
+            al_flip_display();
+            redraw=false;
+
+        }    
 
     }
 
-    al_destroy_bitmap(mysha);
+    
     al_destroy_font(font);
     al_destroy_display(disp);
     al_destroy_timer(timer);
