@@ -13,11 +13,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <allegro5/allegro5.h>
+#include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
 #include "emuladordepuertos.h"
+
+#define INICIAL1 12 
+#define INICIAL2 30
+#define CONST 31
 
 void must_init(bool test, const char *description)
 {
@@ -33,9 +37,9 @@ int switchcase (char bit, char puerto);
 int main()
 {
     //VARIABLES
-    int bitactual;
-    int x1=12;
-    int x2 = 30;
+    int bitactual; //variable con numero de bit para el bucle
+    int x1=INICIAL1; //inicializo en 12 por las medidas del display
+    int x2=INICIAL2; //mismo caso 
     
     bool bit_parpadeo[8]={false,false,false,false,false,false,false,false};
     bool estado_parpadeo=false;
@@ -72,13 +76,16 @@ int main()
     ALLEGRO_EVENT event;
     ALLEGRO_KEYBOARD_STATE ks;
 
-    x1=12;
-    x2=30;
+    //condiciones iniciales
+    x1=INICIAL1;
+    x2=INICIAL2;
+    //creo cada rectangulo que representa cada bit 
     for(bitactual=7; bitactual>=0;bitactual--)
     {
+        //lo creo de color blanco que representa el bit apagado
         al_draw_filled_rectangle(x1, 55, x2, 40, al_map_rgba_f(1, 1, 1, 1));
-        x1+=31;
-        x2+=31;
+        x1+=CONST; //sumo para ir separando cada rectangulo
+        x2+=CONST;
     } 
     al_flip_display();
     
@@ -95,36 +102,37 @@ int main()
                 redraw = true;
                 break;
             case ALLEGRO_EVENT_KEY_DOWN:
-                if(event.keyboard.keycode == ALLEGRO_KEY_T)
+                if(event.keyboard.keycode == ALLEGRO_KEY_T) //si es una T 
                 {
-                    x1=12;
-                    x2=30;
+                    x1=INICIAL1;
+                    x2=INICIAL2;
                     
                     for(bitactual=7; bitactual>=0;bitactual--)
                     {
+                        //en que estado esta el bit?
                         switch(bitGet(PORTA, bitactual))
                         {        
-                            case 0: 
+                            case 0: //si esta apagado se prende
                                 al_draw_filled_rectangle(x1, 55, x2, 40, al_map_rgba_f(1, 0, 0, 1));
                                 break;
-                            case 1:
+                            case 1: //si esta prendido se apaga
                                 al_draw_filled_rectangle(x1, 55, x2, 40, al_map_rgba_f(1, 1, 1, 1));
                                 break;
                             default: break;        
                         }   
-                        x1+=31;
-                        x2+=31;
+                        x1+=CONST;
+                        x2+=CONST;
                     } 
                     al_flip_display();
                     maskToggle(PORTA, 0xFF);
                     led_state (PORTA);
                     
                 } 
-                if(event.keyboard.keycode == ALLEGRO_KEY_B)
+                if(event.keyboard.keycode == ALLEGRO_KEY_B) //si es una B
                 {
-                    if(estado_parpadeo==true)
+                    if(estado_parpadeo==true) //si ya esta parpadeando 
                     {
-                        estado_parpadeo=false;
+                        estado_parpadeo=false; /// deja de hacerlo
                         for(bitactual=0;bitactual<=7;bitactual++)
                         {
                             if(bitGet(PORTA,bitactual)==true)
@@ -135,7 +143,7 @@ int main()
                     }
                     else
                     {
-                        estado_parpadeo=true;
+                        estado_parpadeo=true; //sino cambia de estado
                         for(bitactual=0;bitactual<=7;bitactual++)
                         {
                             bit_parpadeo[bitactual]=false;    
@@ -143,47 +151,51 @@ int main()
                     }
                     
                 } 
-                if(event.keyboard.keycode == ALLEGRO_KEY_C)
+                if(event.keyboard.keycode == ALLEGRO_KEY_C) //si es una c
                 {
                     maskOff (PORTA, 0xFF);
                     led_state (PORTA);
-                    x1=12;
-                    x2=30;
+                    x1=INICIAL1;
+                    x2=INICIAL2;
                     for(bitactual=7; bitactual>=0;bitactual--)
                     {
                         al_draw_filled_rectangle(x1, 55, x2, 40, al_map_rgba_f(1, 1, 1, 1));
-                        x1+=31;
-                        x2+=31;
+                        x1+=CONST;
+                        x2+=CONST;
                     } 
-                    al_flip_display();
+                    al_flip_display(); 
                 } 
                 if(event.keyboard.keycode == ALLEGRO_KEY_S)
                 {
                     maskOn (PORTA, 0xFF);
                     led_state (PORTA);
-                    x1=12;
-                    x2=30;
+                    x1=INICIAL1;
+                    x2=INICIAL2;
                     for(bitactual=7; bitactual>=0;bitactual--)
                     {
                         al_draw_filled_rectangle(x1, 55, x2, 40, al_map_rgba_f(1, 0, 0, 1));
-                        x1+=31;
-                        x2+=31;
+                        x1+=CONST;
+                        x2+=CONST;
                     }
                     al_flip_display();
                     
                 } 
-                if(event.keyboard.keycode == ALLEGRO_KEY_0)
+                if(event.keyboard.keycode == ALLEGRO_KEY_0) //si es un bit
                 {
-                    switchcase (0, PORTA);
+                    switchcase (0, PORTA); 
+                    //primero imprime el estado de todos los bits en pantalla
+                    // y del modificado recientwmente
                     led_state (PORTA);
-                    if(bitGet(PORTA, 0)==1)
+                    if(bitGet(PORTA, 0)==1) // cambia de color depende el estado
                     {
+                        //rojo
                         led_state (PORTA);
                         al_draw_filled_rectangle(229, 55, 247, 40, al_map_rgba_f(1, 0, 0, 1));
                         al_flip_display();
                     }
                     else if(bitGet(PORTA, 0)==0)
                     {
+                        //blanco
                         led_state (PORTA);
                         al_draw_filled_rectangle(229, 55, 247, 40, al_map_rgba_f(1, 1, 1, 1));
                         al_flip_display();     
@@ -193,7 +205,8 @@ int main()
                         led_state (PORTA);
                     }
                 }    
-                if(event.keyboard.keycode == ALLEGRO_KEY_1)
+                //mismo caso para los demas bits
+                if(event.keyboard.keycode == ALLEGRO_KEY_1) 
                 {
                     switchcase (1, PORTA);
                     led_state (PORTA);
@@ -341,7 +354,7 @@ int main()
                         led_state (PORTA);
                     }
                 }       
-                if(event.keyboard.keycode == ALLEGRO_KEY_Q)    
+                if(event.keyboard.keycode == ALLEGRO_KEY_Q) // 
                 {
                     done=true;
                 }  
@@ -358,8 +371,8 @@ int main()
         }
         if(redraw && al_is_event_queue_empty(queue))
         {
-            x1=12;
-            x2=30;
+            x1=INICIAL1;
+            x2=INICIAL2;
             for(bitactual=0;bitactual<=7;bitactual++)
             {
                 if(bit_parpadeo[bitactual]==true)
@@ -374,13 +387,13 @@ int main()
                                 break;
                             default: break;        
                         }   
-                        x1+=31;
-                        x2+=31;
+                        x1+=CONST;
+                        x2+=CONST;
                 }
                 else
                 {
-                    x1+=31;
-                    x2+=31;
+                    x1+=CONST;
+                    x2+=CONST;
                 }
             }
             al_flip_display();
